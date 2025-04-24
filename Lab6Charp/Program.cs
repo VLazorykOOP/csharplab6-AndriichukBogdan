@@ -1,380 +1,412 @@
-﻿namespace Lab6Charp
+﻿using System;
+using System.Collections;
+
+namespace LabWork
 {
-    using System;
-    internal class Program
+    interface Person
     {
-        interface Person
+        string Name { get; set; }
+        int Age { get; set; }
+        int Salary { get; set; }
+        void Show();
+    }
+
+    class Student : Person, ICloneable
+    {
+        private string name;
+        private int age;
+        private int salary;
+        public string Name
         {
-            string name
+            get
             {
-                get;
-                set;
+                return this.name;
             }
-            int age
+            set
             {
-                get;
-                set;
-            }
-            int salary
-            {
-                get;
-                set;
-            }
-            abstract void Show();
-        }
-
-        class Student : Person,IComparable
-        {
-            private string Name;
-            private int Age;
-            private int Salary;
-            private string Faculty;
-
-            public string name
-            {
-                get
-                {
-                    return this.Name;
-                }
-                set
-                {
-                    this.Name = value;
-                }
-            }
-            public int age
-            {
-                get
-                {
-                    return this.Age;
-                }
-                set
-                {
-                    this.Age = value;
-                }
-            }
-            public int salary
-            {
-                get
-                {
-                    return this.Salary;
-                }
-                set
-                {
-                    this.Salary = value;
-                }
-            }
-            public string faculty
-            {
-                get
-                {
-                    return this.Faculty;
-                }
-            }
-
-            public Student(string n, int a, int s, string f)
-            {
-                this.Name = n;
-                this.Age = a;
-                this.Salary = s;
-                this.Faculty = f;
-            }
-
-            ~Student()
-            {
-                Console.WriteLine("Delete Student!");
-            }
-
-            public void Show()
-            {
-                Console.WriteLine("Name:{0}\nAge:{1}\nSalary:{2}\nFaculty:{3}", this.Name, this.Age, this.Salary, this.Faculty);
-            }
-            public int CompareTo(object obj)
-            {
-
-                if (obj == null) return 1;
-
-                Student other = obj as Student;
-                if (other != null)
-                {
-                    if (this.age > other.age) return 1;
-                    if (this.age < other.age) return -1;
-                    return 0;
-                }
-                else
-                {
-                    throw new ArgumentException("Error class");
-                }
+                this.name = value;
             }
         }
-
-        class Teacher : Person
+        public int Age
         {
-            protected string Name;
-            protected int Age;
-            protected int Salary;
-            protected string Subject;
-            protected int Experience;
-
-            public string name
-            {
-                get
-                {
-                    return this.Name;
-                }
-                set
-                {
-                    this.Name = value;
-                }
-            }
-            public int age
-            {
-                get
-                {
-                    return this.Age;
-                }
-                set
-                {
-                    this.Age = value;
-                }
-            }
-            public int salary
-            {
-                get
-                {
-                    return this.Salary;
-                }
-                set
-                {
-                    this.Salary = value;
-                }
-            }
-            public string subject
-            {
-                get
-                {
-                    return this.Subject;
-                }
-            }
-            public int experience
-            {
-                get
-                {
-                    return this.Experience;
-                }
-            }
-
-            public Teacher(string n, int a, int s, string sub, int e)
-            {
-                this.Name = n;
-                this.Age = a;
-                this.Salary = s;
-                this.Subject = sub;
-                this.Experience = e;
-            }
-            ~Teacher()
-            {
-                Console.WriteLine("Delete Teacher!");
-            }
-
-            public void Show()
-            {
-                Console.WriteLine("Name:{0}\nAge:{1}\nSalary:{2}\nSubject:{3}\nExperiance:{4}", this.Name, this.Age, this.Salary, this.Subject, this.Experience);
-            }
-            public int CompareTo(object obj)
-            {
-
-                if (obj == null) return 1;
-
-                Teacher other = obj as Teacher;
-                if (other != null)
-                {
-                    if (this.age > other.age) return 1;
-                    if (this.age < other.age) return -1;
-                    return 0;
-                }
-                else
-                {
-                    throw new ArgumentException("Error class");
-                }
-            }
+            get { return this.age; }
+            set { this.age = value; }
         }
-        class HeadOfDepartment : Teacher
+        public int Salary
         {
-            private string Department;
-            public HeadOfDepartment(string n, int a, int s, string sub, int e, string d) : base(n, a, s, sub, e)
-            {
-                this.Department = d;
-            }
-            ~HeadOfDepartment()
-            {
-                Console.WriteLine("Delete HeadOfDepartment!");
-            }
-
-            public void Show()
-            {
-                Console.WriteLine("Name:{0}\nAge:{1}\nSalary:{2}\nSubject:{3}\nExperiance:{4}\nDepartment{5}", this.Name, this.Age, this.Salary, this.Subject, this.Experience, this.Department);
-            }
-            public int CompareTo(object obj)
-            {
-
-                if (obj == null) return 1;
-
-                HeadOfDepartment other = obj as HeadOfDepartment;
-                if (other != null)
-                {
-                    if (this.age > other.age) return 1;
-                    if (this.age < other.age) return -1;
-                    return 0;
-                }
-                else
-                {
-                    throw new ArgumentException("Error class");
-                }
-            }
+            get { return this.salary; }
+            set { this.salary = value; }
         }
 
-        interface Figure
+        public Student(string n, int a, int s)
         {
-            void Show();
-            double Perimeter();
-            double Area();
-        }
-        class Rectangle : Figure
-        {
-            protected double width;
-            protected double height;
-
-            public Rectangle(double width, double height)
-            {
-                this.width = width;
-                this.height = height;
-            }
-
-            public double Perimeter()
-            {
-                return 2 * this.width + 2 * this.height;
-            }
-            public double Area()
-            {
-                return this.width * this.height;
-            }
-            public void Show()
-            {
-                Console.WriteLine("Width:{0}\nHeight:{1}\nPerimeter:{2}\nArea:{3}",this.width,this.height,this.Perimeter(),this.Area());
-            }
-            public int CompareTo(object obj)
-            {
-
-                if (obj == null) return 1;
-
-                Rectangle other = obj as Rectangle;
-                if (other != null)
-                {
-                    if (this.Area() > other.Area()) return 1;
-                    if (this.Area() < other.Area()) return -1;
-                    return 0;
-                }
-                else
-                {
-                    throw new ArgumentException("Error class");
-                }
-            }
-
+            this.name = n;
+            this.age = a;
+            this.salary = s;
         }
 
-        class Circle : Figure
+        public void Show()
         {
+            Console.WriteLine("Student: {0}, Age: {1}, Salary: {2}", name, age, salary);
+        }
 
-            protected double radius;
+        public object Clone()
+        {
+            return new Student(name, age, salary);
+        }
+    }
 
-            public Circle(double radius)
+    class Teacher : Person, ICloneable
+    {
+        private string name;
+        private int age;
+        private int salary;
+        private string subject;
+        public string Name
+        {
+            get
             {
-                this.radius = radius;
+                return this.name;
             }
-
-
-            public double Perimeter()
+            set
             {
-                return this.radius * 2 * Math.PI;
+                this.name = value;
             }
-            public double Area()
+        }
+        public int Age
+        {
+            get
             {
-                return this.radius * this.radius * Math.PI;
+                return this.age;
             }
-            public void Show()
+            set
             {
-                Console.WriteLine("Radius:{0}\nPerimetr:{1}\nArea:{2}",this.radius,this.Perimeter(),this.Area());
+                this.age = value;
             }
-            public int CompareTo(object obj)
+        }
+        public int Salary
+        {
+            get
             {
+                return this.salary;
+            }
+            set
+            {
+                this.salary = value;
+            }
+        }
+        public Teacher(string n, int a, int s, string sub)
+        {
+            this.name = n;
+            this.age = a;
+            this.salary = s;
+            this.subject = sub;
+        }
 
-                if (obj == null) return 1;
+        public void Show()
+        {
+            Console.WriteLine("Teacher: {0}, Age: {1}, Salary: {2}", name, age, salary);
+        }
 
-                Circle other = obj as Circle;
-                if (other != null)
-                {
-                    if (this.Area() > other.Area()) return 1;
-                    if (this.Area() < other.Area()) return -1;
-                    return 0;
-                }
-                else
-                {
-                    throw new ArgumentException("Error class");
-                }
+        public object Clone()
+        {
+            return new Teacher(this.name, this.age, this.salary, this.subject);
+        }
+    }
+
+    interface Figure
+    {
+        void Show();
+        double GetPerimeter();
+        double GetArea();
+    }
+
+    class Circle : Figure, ICloneable
+    {
+        private double radius;
+
+        public Circle(double radius)
+        {
+            this.radius = radius;
+        }
+
+        public double GetPerimeter()
+        {
+            return 2 * Math.PI * radius;
+        }
+
+        public double GetArea()
+        {
+            return Math.PI * radius * radius;
+        }
+
+        public void Show()
+        {
+            Console.WriteLine("Circle: Radius = {0}, Perimeter = {1}, Area = {2}", radius, GetPerimeter(), GetArea());
+        }
+
+        public object Clone()
+        {
+            return new Circle(this.radius);
+        }
+    }
+
+    class Rectangle : Figure, ICloneable
+    {
+        protected double width;
+        protected double height;
+
+        public Rectangle(double width, double height)
+        {
+            this.width = width;
+            this.height = height;
+        }
+
+        public double GetPerimeter()
+        {
+            return 2 * this.width + 2 * this.height;
+        }
+
+        public double GetArea()
+        {
+            return this.width * this.height;
+        }
+
+        public void Show()
+        {
+            Console.WriteLine("Width:{0}\nHeight:{1}\nPerimeter:{2}\nArea:{3}", this.width, this.height, this.GetPerimeter(), this.GetArea());
+        }
+
+        public object Clone()
+        {
+            return new Rectangle(width, height);
+        }
+    }
+
+    class Triangle : Figure, ICloneable
+    {
+        private double a, b, c;
+
+        public Triangle(double a, double b, double c)
+        {
+            this.a = a;
+            this.b = b;
+            this.c = c;
+        }
+
+        public double GetPerimeter()
+        {
+            return a + b + c;
+        }
+
+        public double GetArea()
+        {
+            double p = GetPerimeter() / 2;
+            return Math.Sqrt(p * (p - a) * (p - b) * (p - c));
+        }
+
+        public void Show()
+        {
+            Console.WriteLine("Triangle: Sides = {0}, {1}, {2}, Perimeter = {3}, Area = {4}", a, b, c, GetPerimeter(), GetArea());
+        }
+
+        public object Clone()
+        {
+            return new Triangle(a, b, c);
+        }
+    }
+
+
+    class VectorInt : IEnumerable
+    {
+        protected int[] IntArray;
+        protected uint size;
+        protected int codeError;
+        protected static uint num_vec = 0;
+
+        public VectorInt()
+        {
+            this.size = 1;
+            this.IntArray = new int[this.size];
+            this.IntArray[0] = 0;
+            num_vec++;
+        }
+
+        public VectorInt(uint size)
+        {
+            this.size = size;
+            this.IntArray = new int[this.size];
+            for (int i = 0; i < this.size; i++)
+            {
+                this.IntArray[i] = 0;
+            }
+            num_vec++;
+        }
+
+        public VectorInt(uint size, int value)
+        {
+            this.size = size;
+            this.IntArray = new int[this.size];
+            for (int i = 0; i < this.size; i++)
+            {
+                this.IntArray[i] = value;
+            }
+            num_vec++;
+        }
+
+        ~VectorInt()
+        {
+            Console.WriteLine("Vector deleted.");
+        }
+
+        public void AssignValue(int value)
+        {
+            for (int i = 0; i < this.size; i++)
+            {
+                this.IntArray[i] = value;
             }
         }
 
-        class Triangle : Figure
+        public static uint CountVectors()
         {
-            protected double sideA;
-            protected double sideB;
-            protected double sideC;
+            return num_vec;
+        }
 
-            public Triangle(double sideA, double sideB, double sideC)
-            {
-                this.sideA = sideA;
-                this.sideB = sideB;
-                this.sideC = sideC;
-            }
+        public uint Size => this.size;
 
-            public double Perimeter()
-            {
-                return this.sideA + this.sideB + this.sideC;
-            }
-            public double Area()
-            {
-                double s = this.Perimeter();
-                return Math.Sqrt((s - this.sideA) * (s - this.sideB) * (s - this.sideC));
-            }
-            public void Show()
-            {
-                Console.WriteLine("Side A:{0}\nSide B:{1}\nSide C:{2}\nPerimetr:{3}\nArea:{4}",this.sideA,this.sideB,this.sideC,this.Perimeter(),this.Area());
-            }
-            public int CompareTo(object obj)
-            {
+        public int CodeError
+        {
+            get { return this.codeError; }
+            set { this.codeError = value; }
+        }
 
-                if (obj == null) return 1;
-
-                Triangle other = obj as Triangle;
-                if (other != null)
-                {
-                    if (this.Area() > other.Area()) return 1;
-                    if (this.Area() < other.Area()) return -1;
-                    return 0;
-                }
-                else
-                {
-                    throw new ArgumentException("Error class");
-                }
+        public int this[int i]
+        {
+            get
+            {
+                if (i >= 0 && i < this.size) return this.IntArray[i];
+                Console.WriteLine("Invalid index!");
+                return 0;
+            }
+            set
+            {
+                if (i >= 0 && i < this.size) this.IntArray[i] = value;
+                else this.codeError = -1;
             }
         }
 
+        public static VectorInt operator ++(VectorInt v)
+        {
+            for (int i = 0; i < v.size; i++) v.IntArray[i]++;
+            return v;
+        }
 
+        public static VectorInt operator --(VectorInt v)
+        {
+            for (int i = 0; i < v.size; i++) v.IntArray[i]--;
+            return v;
+        }
+
+        public IEnumerator GetEnumerator()
+        {
+            for (int i = 0; i < this.size; i++)
+            {
+                yield return this.IntArray[i];
+            }
+        }
+    }
+
+
+    class Program
+    {
+        static void task1()
+        {
+            Student st = new Student("Ivan", 20, 1000);
+            st.Show();
+            Teacher tc = new Teacher("Petro", 45, 3000, "CS");
+            tc.Show();
+
+            Teacher tc2 = (Teacher)tc.Clone();
+            tc2.Show();
+        }
+
+        static void task2()
+        {
+            Circle circle = new Circle(5);
+            circle.Show();
+            Circle circle2 = (Circle)circle.Clone();
+            circle2.Show();
+
+            Rectangle rect = new Rectangle(4, 6);
+            rect.Show();
+            Rectangle rect2 = (Rectangle)rect.Clone();
+            rect2.Show();
+
+            Triangle triangle = new Triangle(3, 4, 5);
+            triangle.Show();
+            Triangle triangle2 = (Triangle)triangle.Clone();
+            triangle2.Show();
+        }
+
+        static void task3()
+        {
+            Console.Write("Введіть розмір вектора: ");
+            uint size = Convert.ToUInt32(Console.ReadLine());
+
+            Console.Write("Введіть значення для заповнення: ");
+            int value = Convert.ToUInt16(Console.ReadLine());
+
+            VectorInt vec = new VectorInt(size, value);
+
+            Console.WriteLine("Елементи вектора через foreach:");
+            foreach (int num in vec)
+            {
+                Console.Write(num + " ");
+            }
+
+            Console.WriteLine();
+        }
+
+
+        static void choose_task()
+        {
+            Console.Write("1. Point\n2. Figure\n3. Person and Figures\n");
+            int answer = Convert.ToInt16(System.Console.ReadLine());
+
+            switch (answer)
+            {
+                case 1:
+                    {
+                        task3();
+                        Console.Write("\n\n\n");
+                        choose_task();
+                        break;
+                    }
+                case 2:
+                    {
+                        task2();
+                        Console.Write("\n\n\n");
+                        choose_task();
+                        break;
+                    }
+                case 3:
+                    {
+                        task1();
+                        Console.Write("\n\n\n");
+                        choose_task();
+                        break;
+                    }
+                default:
+                    {
+                        choose_task();
+                        break;
+                    }
+            }
+        }
 
         static void Main(string[] args)
         {
-            Student joe = new Student("Joe", 24, 20000, "CS");
-            joe.Show();
+            choose_task();
         }
     }
 }
