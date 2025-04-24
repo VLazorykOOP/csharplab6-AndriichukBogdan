@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
 
-namespace LabWork
+namespace Lab6Charp
 {
     interface Person
     {
@@ -18,14 +18,8 @@ namespace LabWork
         private int salary;
         public string Name
         {
-            get
-            {
-                return this.name;
-            }
-            set
-            {
-                this.name = value;
-            }
+            get { return name; }
+            set { this.name = value; }
         }
         public int Age
         {
@@ -40,9 +34,9 @@ namespace LabWork
 
         public Student(string n, int a, int s)
         {
-            this.name = n;
-            this.age = a;
-            this.salary = s;
+            name = n;
+            age = a;
+            salary = s;
         }
 
         public void Show()
@@ -52,6 +46,7 @@ namespace LabWork
 
         public object Clone()
         {
+            Console.WriteLine("Cloning Student!");
             return new Student(name, age, salary);
         }
     }
@@ -64,43 +59,25 @@ namespace LabWork
         private string subject;
         public string Name
         {
-            get
-            {
-                return this.name;
-            }
-            set
-            {
-                this.name = value;
-            }
+            get { return name; }
+            set { this.name = value; }
         }
         public int Age
         {
-            get
-            {
-                return this.age;
-            }
-            set
-            {
-                this.age = value;
-            }
+            get { return this.age; }
+            set { this.age = value; }
         }
         public int Salary
         {
-            get
-            {
-                return this.salary;
-            }
-            set
-            {
-                this.salary = value;
-            }
+            get { return this.salary; }
+            set { this.salary = value; }
         }
         public Teacher(string n, int a, int s, string sub)
         {
-            this.name = n;
-            this.age = a;
-            this.salary = s;
-            this.subject = sub;
+            name = n;
+            age = a;
+            salary = s;
+            subject = sub;
         }
 
         public void Show()
@@ -110,7 +87,8 @@ namespace LabWork
 
         public object Clone()
         {
-            return new Teacher(this.name, this.age, this.salary, this.subject);
+            Console.WriteLine("Cloning Teacher!");
+            return new Teacher(name, age, salary, subject);
         }
     }
 
@@ -124,21 +102,9 @@ namespace LabWork
     class Circle : Figure, ICloneable
     {
         private double radius;
-
-        public Circle(double radius)
-        {
-            this.radius = radius;
-        }
-
-        public double GetPerimeter()
-        {
-            return 2 * Math.PI * radius;
-        }
-
-        public double GetArea()
-        {
-            return Math.PI * radius * radius;
-        }
+        public Circle(double radius) { this.radius = radius; }
+        public double GetPerimeter() {return 2 * Math.PI * radius;}
+        public double GetArea() {return Math.PI * radius * radius;}
 
         public void Show()
         {
@@ -147,7 +113,8 @@ namespace LabWork
 
         public object Clone()
         {
-            return new Circle(this.radius);
+            Console.WriteLine("Cloning Circle!");
+            return new Circle(radius);
         }
     }
 
@@ -162,23 +129,17 @@ namespace LabWork
             this.height = height;
         }
 
-        public double GetPerimeter()
-        {
-            return 2 * this.width + 2 * this.height;
-        }
-
-        public double GetArea()
-        {
-            return this.width * this.height;
-        }
+        public double GetPerimeter() {return 2 * (width + height);}
+        public double GetArea() { return width * height;}
 
         public void Show()
         {
-            Console.WriteLine("Width:{0}\nHeight:{1}\nPerimeter:{2}\nArea:{3}", this.width, this.height, this.GetPerimeter(), this.GetArea());
+            Console.WriteLine("Width:{0}\nHeight:{1}\nPerimeter:{2}\nArea:{3}", width, height, GetPerimeter(), GetArea());
         }
 
         public object Clone()
         {
+            Console.WriteLine("Cloning Rectangle!");
             return new Rectangle(width, height);
         }
     }
@@ -186,7 +147,6 @@ namespace LabWork
     class Triangle : Figure, ICloneable
     {
         private double a, b, c;
-
         public Triangle(double a, double b, double c)
         {
             this.a = a;
@@ -194,10 +154,7 @@ namespace LabWork
             this.c = c;
         }
 
-        public double GetPerimeter()
-        {
-            return a + b + c;
-        }
+        public double GetPerimeter() {return a + b + c;}
 
         public double GetArea()
         {
@@ -212,110 +169,53 @@ namespace LabWork
 
         public object Clone()
         {
+            Console.WriteLine("Cloning Triangle!");
             return new Triangle(a, b, c);
         }
     }
 
+    public class MyVectorException : ApplicationException
+    {
+        public MyVectorException() { }
+        public MyVectorException(string message) : base(message) { }
+    }
 
     class VectorInt : IEnumerable
     {
         protected int[] IntArray;
         protected uint size;
-        protected int codeError;
-        protected static uint num_vec = 0;
 
-        public VectorInt()
-        {
-            this.size = 1;
-            this.IntArray = new int[this.size];
-            this.IntArray[0] = 0;
-            num_vec++;
-        }
-
-        public VectorInt(uint size)
+        public VectorInt(uint size = 1, int defaultValue = 0)
         {
             this.size = size;
-            this.IntArray = new int[this.size];
-            for (int i = 0; i < this.size; i++)
-            {
-                this.IntArray[i] = 0;
-            }
-            num_vec++;
-        }
-
-        public VectorInt(uint size, int value)
-        {
-            this.size = size;
-            this.IntArray = new int[this.size];
-            for (int i = 0; i < this.size; i++)
-            {
-                this.IntArray[i] = value;
-            }
-            num_vec++;
-        }
-
-        ~VectorInt()
-        {
-            Console.WriteLine("Vector deleted.");
-        }
-
-        public void AssignValue(int value)
-        {
-            for (int i = 0; i < this.size; i++)
-            {
-                this.IntArray[i] = value;
-            }
-        }
-
-        public static uint CountVectors()
-        {
-            return num_vec;
-        }
-
-        public uint Size => this.size;
-
-        public int CodeError
-        {
-            get { return this.codeError; }
-            set { this.codeError = value; }
+            IntArray = new int[size];
+            for (int i = 0; i < size; i++)
+                IntArray[i] = defaultValue;
         }
 
         public int this[int i]
         {
             get
             {
-                if (i >= 0 && i < this.size) return this.IntArray[i];
-                Console.WriteLine("Invalid index!");
-                return 0;
+                if (i >= 0 && i < size)
+                    return IntArray[i];
+                throw new MyVectorException($"Index {i} is out of bounds (0 to {size - 1})");
             }
             set
             {
-                if (i >= 0 && i < this.size) this.IntArray[i] = value;
-                else this.codeError = -1;
+                if (i >= 0 && i < size)
+                    IntArray[i] = value;
+                else
+                    throw new MyVectorException($"Cannot set value — index {i} is invalid.");
             }
-        }
-
-        public static VectorInt operator ++(VectorInt v)
-        {
-            for (int i = 0; i < v.size; i++) v.IntArray[i]++;
-            return v;
-        }
-
-        public static VectorInt operator --(VectorInt v)
-        {
-            for (int i = 0; i < v.size; i++) v.IntArray[i]--;
-            return v;
         }
 
         public IEnumerator GetEnumerator()
         {
-            for (int i = 0; i < this.size; i++)
-            {
-                yield return this.IntArray[i];
-            }
+            for (int i = 0; i < size; i++)
+                yield return IntArray[i];
         }
     }
-
 
     class Program
     {
@@ -323,9 +223,10 @@ namespace LabWork
         {
             Student st = new Student("Ivan", 20, 1000);
             st.Show();
+            Student st2 = (Student)st.Clone();
+            st2.Show();
             Teacher tc = new Teacher("Petro", 45, 3000, "CS");
             tc.Show();
-
             Teacher tc2 = (Teacher)tc.Clone();
             tc2.Show();
         }
@@ -350,15 +251,44 @@ namespace LabWork
 
         static void task3()
         {
-            Console.Write("Введіть розмір вектора: ");
+            try
+            {
+                VectorInt vec = new VectorInt(3, 7);
+                // Console.WriteLine("Accessing element at index 10...");
+                // Console.WriteLine(vec[10]);
+
+                Console.WriteLine("Attempting to assign VectorInt to string array...");
+                object[] array = new string[1];
+                array[0] = vec;
+            }
+            catch (MyVectorException ex)
+            {
+                Console.WriteLine("MyVectorException caught: " + ex.Message);
+            }
+            catch (ArrayTypeMismatchException ex)
+            {
+                Console.WriteLine("ArrayTypeMismatchException caught: " + ex.Message);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("General exception caught: " + ex.Message);
+            }
+
+            Console.WriteLine("Program finished.");
+            Console.ReadLine();
+        }
+
+        static void task4()
+        {
+            Console.Write("Enter vector size: ");
             uint size = Convert.ToUInt32(Console.ReadLine());
 
-            Console.Write("Введіть значення для заповнення: ");
+            Console.Write("Enter value to fill: ");
             int value = Convert.ToUInt16(Console.ReadLine());
 
             VectorInt vec = new VectorInt(size, value);
 
-            Console.WriteLine("Елементи вектора через foreach:");
+            Console.WriteLine("Vector elements using foreach:");
             foreach (int num in vec)
             {
                 Console.Write(num + " ");
@@ -367,41 +297,29 @@ namespace LabWork
             Console.WriteLine();
         }
 
-
         static void choose_task()
         {
-            Console.Write("1. Point\n2. Figure\n3. Person and Figures\n");
-            int answer = Convert.ToInt16(System.Console.ReadLine());
+            Console.Write("1. Person\n2. Figure\n3. Array exception\n4. Foreach in Array\nYour choice: ");
+            int answer = Convert.ToInt16(Console.ReadLine());
 
             switch (answer)
             {
                 case 1:
-                    {
-                        task3();
-                        Console.Write("\n\n\n");
-                        choose_task();
-                        break;
-                    }
+                    task1();
+                    break;
                 case 2:
-                    {
-                        task2();
-                        Console.Write("\n\n\n");
-                        choose_task();
-                        break;
-                    }
+                    task2();
+                    break;
                 case 3:
-                    {
-                        task1();
-                        Console.Write("\n\n\n");
-                        choose_task();
-                        break;
-                    }
-                default:
-                    {
-                        choose_task();
-                        break;
-                    }
+                    task3();
+                    break;
+                case 4:
+                    task4();
+                    break;
             }
+
+            Console.Write("\n\n\n");
+            choose_task();
         }
 
         static void Main(string[] args)
